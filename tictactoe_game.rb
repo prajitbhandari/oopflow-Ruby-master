@@ -57,7 +57,6 @@ class Game
     @draw_counter += 1
     return false unless @draw_counter == (@b.board_size * @b.board_size) + 1
 
-    # debugger
     left_diagonal(@b.board, @b.board_size) == false &&
       right_diagonal(@b.board, @b.board_size) == false &&
       check_row(@b.board, @b.board_size) == false &&
