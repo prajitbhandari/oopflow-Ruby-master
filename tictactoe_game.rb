@@ -49,9 +49,9 @@ class Game
 
   def game_is_won?
     left_diagonal(@b.board, @b.board_size) ||
-    right_diagonal(@b.board, @b.board_size) ||
-    check_row(@b.board, @b.board_size) ||
-    check_column(@b.board, @b.board_size)
+      right_diagonal(@b.board, @b.board_size) ||
+      check_row(@b.board, @b.board_size) ||
+      check_column(@b.board, @b.board_size)
   end
 
   def game_is_draw?
@@ -173,21 +173,12 @@ class Game
       (0..board_size - 2).each do |j|
         if board[i][j] == 'X' && board[i][j + 1] == 'X'
           xcount += 1
-          if xcount == board_size
-            return @result = @p1.identifier
-            # break
-          end
+          return @result = @p1.identifier if xcount == board_size
         elsif board[i][j] == 'O' && board[i][j + 1] == 'O'
           ycount += 1
-          if ycount == board_size
-            return @result = @p2.identifier
-            # break
-          end
-        else
-          if i == board_size - 1 && j == board_size - 2
-            return false
-            # break
-          end
+          return @result = @p2.identifier if ycount == board_size
+
+          return false elsif i == board_size - 1 && j == board_size - 2
         end
       end
       xcount = 1
@@ -203,20 +194,12 @@ end
       (0...board_size - 1).each do |j|
         if board[j][i] == 'X' && board[j + 1][i] == 'X'
           xcount += 1
-          if xcount == board_size
-            return @result = @p1.identifier
-              # return true;
-              # break
-            end
+          return @result = @p1.identifier if xcount == board_size
         elsif board[j][i] == 'O' && board[j + 1][i] == 'O'
           ycount += 1
-          if ycount == board_size
-            return @result = @p2.identifier
-            # return true;
-            # break
-          end
-        else
-          return false if i == board_size - 1 && j == board_size - 2
+          return @result = @p2.identifier if ycount == board_size
+
+          return false elsif i == board_size - 1 && j == board_size - 2
         end
       end
       xcount = 1
