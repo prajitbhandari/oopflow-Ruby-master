@@ -34,7 +34,6 @@ class Game
       puts '==================================================='
       handle_next_move
     end
-    # debugger
     show_result
     # unless self.ended?
     #     self.handleNextMove
@@ -58,11 +57,11 @@ class Game
     @draw_counter += 1
     return false unless @draw_counter == (@b.board_size * @b.board_size) + 1
 
+    # debugger
     left_diagonal(@b.board, @b.board_size) == false &&
       right_diagonal(@b.board, @b.board_size) == false &&
       check_row(@b.board, @b.board_size) == false &&
       check_column(@b.board, @b.board_size) == false
-    # end
   end
 
   def handle_next_move
@@ -161,13 +160,13 @@ class Game
         if board[i][j] == 'X' && board[i][j + 1] == 'X'
           xcount += 1
           return @result = @p1.identifier if xcount == board_size
-            
+
         elsif board[i][j] == 'O' && board[i][j + 1] == 'O'
           ycount += 1
           return @result = @p2.identifier if ycount == board_size
-            
+
         elsif i == board_size - 1 && j == board_size - 2
-            return false
+          return false
         end
       end
       xcount = 1
@@ -184,11 +183,11 @@ class Game
         if board[j][i] == 'X' && board[j + 1][i] == 'X'
           xcount += 1
           return @result = @p1.identifier if xcount == board_size
-            
+
         elsif board[j][i] == 'O' && board[j + 1][i] == 'O'
           ycount += 1
           return @result = @p2.identifier if ycount == board_size
-            
+
           return false elsif i == board_size - 1 && j == board_size - 2
         end
       end
@@ -200,7 +199,6 @@ class Game
 
   def show_result
     if game_is_won?
-      # debugger
       puts
       puts "Yay #{@result} wins!!!"
 
