@@ -55,12 +55,14 @@ class Game
 
   def game_is_draw?
     @draw_counter += 1
-    return false unless @draw_counter == (@b.board_size * @b.board_size) + 1
-
-    left_diagonal(@b.board, @b.board_size) == false &&
-      right_diagonal(@b.board, @b.board_size) == false &&
-      check_row(@b.board, @b.board_size) == false &&
-      check_column(@b.board, @b.board_size) == false
+    if @draw_counter == (@b.board_size * @b.board_size) + 1
+      left_diagonal(@b.board, @b.board_size) == false &&
+        right_diagonal(@b.board, @b.board_size) == false &&
+        check_row(@b.board, @b.board_size) == false &&
+        check_column(@b.board, @b.board_size) == false
+    else
+      return false
+    end
   end
 
   def handle_next_move
