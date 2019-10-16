@@ -156,16 +156,18 @@ class Game
   def check_row(board, board_size)
     xcount = 1
     ycount = 1
-    (0..board_size - 1).each do |i|
-      (0..board_size - 2).each do |j|
+    (0..(board_size - 1)).each do |i|
+      (0..(board_size - 2)).each do |j|
         if board[i][j] == 'X' && board[i][j + 1] == 'X'
           xcount += 1
           return @result = @p1.identifier if xcount == board_size
+            
         elsif board[i][j] == 'O' && board[i][j + 1] == 'O'
           ycount += 1
           return @result = @p2.identifier if ycount == board_size
-
-          return false elsif i == board_size - 1 && j == board_size - 2
+            
+        elsif i == board_size - 1 && j == board_size - 2
+            return false
         end
       end
       xcount = 1
@@ -178,14 +180,15 @@ class Game
     xcount = 1
     ycount = 1
     (0...board_size).each do |i|
-      (0...board_size - 1).each do |j|
+      (0...(board_size - 1)).each do |j|
         if board[j][i] == 'X' && board[j + 1][i] == 'X'
           xcount += 1
           return @result = @p1.identifier if xcount == board_size
+            
         elsif board[j][i] == 'O' && board[j + 1][i] == 'O'
           ycount += 1
           return @result = @p2.identifier if ycount == board_size
-
+            
           return false elsif i == board_size - 1 && j == board_size - 2
         end
       end
