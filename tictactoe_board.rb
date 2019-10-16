@@ -43,14 +43,13 @@ class Board
         print '  |   ' if y != board_size - 1
       end
 
-        if x != board_size - 1
-          print "\n"
-          (0...board_size + (board_size * 6)).each do |_i|
-            print '='
-          end
-        end
+      if x != board_size - 1
         print "\n"
+        (0...board_size + (board_size * 6)).each do |_i|
+          print '='
+        end
       end
+      print "\n"
+    end
   end
 end
-
