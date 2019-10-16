@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
-require_relative 'Board.rb'
+require_relative 'tictactoe_board.rb'
 require 'byebug'
+# Description/Explanation of Game class
 class Game
   def initialize
     @p1 = Player.new('Player 1', 'X')
     @p2 = Player.new('Player 2', 'O')
-    @boardSize = askBoardSize
+    @boardSize = ask_board_size
     @b = Board.new(@boardSize, @p1, @p2)
     @b.show
     @@move_counter = 1
@@ -14,7 +15,7 @@ class Game
     proceed
   end
 
-  def askBoardSize
+  def ask_board_size
     puts 'Welcome to Tic Tac Toe Game!!!'
     #   prompt board size form user
     puts 'Enter the size of the Board Grid'
@@ -22,7 +23,7 @@ class Game
     if @size < 2
       puts 'Please Provide Size Greater than or equal to 2'
       puts
-      askBoardSize
+      ask_board_size
     end
     @size
   end
@@ -31,10 +32,10 @@ class Game
     until ended?
       puts
       puts '==================================================='
-      handleNextMove
+      handle_next_move
     end
     # debugger
-    showResult
+    show_result
     # unless self.ended?
     #     self.handleNextMove
     # else
@@ -43,29 +44,29 @@ class Game
   end
 
   def ended?
-    gameIsWon? || gameIsDraw?
+    game_is_won? || game_is_draw?
   end
 
-  def gameIsWon?
-    leftDiagonal(@b.board, @b.board_size) ||
-      rightDiagonal(@b.board, @b.board_size) ||
-      checkRow(@b.board, @b.board_size) ||
-      checkColumn(@b.board, @b.board_size)
+  def game_is_won?
+    left_diagonal(@b.board, @b.board_size) ||
+    right_diagonal(@b.board, @b.board_size) ||
+    check_row(@b.board, @b.board_size) ||
+    check_column(@b.board, @b.board_size)
   end
 
-  def gameIsDraw?
+  def game_is_draw?
     @@draw_counter += 1
     if @@draw_counter == (@b.board_size * @b.board_size) + 1
-      leftDiagonal(@b.board, @b.board_size) == false &&
-        rightDiagonal(@b.board, @b.board_size) == false &&
-        checkRow(@b.board, @b.board_size) == false &&
-        checkColumn(@b.board, @b.board_size) == false
+      left_diagonal(@b.board, @b.board_size) == false &&
+        right_diagonal(@b.board, @b.board_size) == false &&
+        check_row(@b.board, @b.board_size) == false &&
+        check_column(@b.board, @b.board_size) == false
     else
       return false
     end
   end
 
-  def handleNextMove
+  def handle_next_move
     if @@move_counter.odd?
       puts
       puts "Now #{@p1.identifier} turn"
@@ -76,15 +77,15 @@ class Game
         puts
         puts '==================================================='
         puts "#{@p1.identifier} choose valid row and column"
-        handleNextMove
+        handle_next_move
       else
         if @b.board[@objx.row][@objx.col] == 'X' || @b.board[@objx.row][@objx.col] == 'O'
           puts '==================================================='
           puts "#{@p1.identifier} select another cell"
-          handleNextMove
+          handle_next_move
         elsif @b.board[@objx.row][@objx.col] != 'X' || @b.board[@objx.row][@objx.col] != 'O'
           @b.board[@objx.row][@objx.col] = @p1.move_token
-          @b.printBoard
+          @b.print_board
           @@move_counter += 1
         end
       end
@@ -93,27 +94,27 @@ class Game
       puts "Now #{@p2.identifier} turn"
       puts "Place #{@p2.move_token} in board"
       puts
-      @objx = @p2.askNextMove
+      @objx = @p2.ask_next_move
       if @objx.row >= @b.board_size || @objx.col >= @b.board_size
         puts
         puts '==================================================='
         puts "#{@p2.identifier} choose valid row and column"
-        handleNextMove
+        handle_next_move
       else
         if @b.board[@objx.row][@objx.col] == 'X' || @b.board[@objx.row][@objx.col] == 'O'
           puts '==================================================='
           puts "#{@p2.identifier} select another cell"
-          handleNextMove
+          handle_next_move
         elsif @b.board[@objx.row][@objx.col] != 'X' || @b.board[@objx.row][@objx.col] != 'O'
           @b.board[@objx.row][@objx.col] = @p2.move_token
-          @b.printBoard
+          @b.print_board
           @@move_counter += 1
         end
       end
     end
   end
 
-  def leftDiagonal(board, board_size)
+  def left_diagonal(board, board_size)
     xlcount = 1
     olcount = 1
     (0...board_size - 1).each do |i|
@@ -139,7 +140,7 @@ class Game
     end
   end
 
-  def rightDiagonal(board, board_size)
+  def right_diagonal(board, board_size)
     xrcount = 1
     orcount = 1
     (0...board_size - 1).each do |i|
@@ -165,7 +166,7 @@ class Game
     end
   end
 
-  def checkRow(board, board_size)
+  def check_row(board, board_size)
     xcount = 1
     ycount = 1
     (0..board_size - 1).each do |i|
@@ -195,7 +196,7 @@ class Game
     false
 end
 
-  def checkColumn(board, board_size)
+  def check_column(board, board_size)
     xcount = 1
     ycount = 1
     (0...board_size).each do |i|
@@ -224,13 +225,13 @@ end
     false
   end
 
-  def showResult
-    if gameIsWon?
+  def show_result
+    if game_is_won?
       # debugger
       puts
       puts "Yay #{@result} wins!!!"
 
-    elsif gameIsDraw?
+    elsif !game_is_draw?
       puts
       puts 'Game is Tied'
     end

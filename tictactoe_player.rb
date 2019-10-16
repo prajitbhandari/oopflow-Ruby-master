@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative 'Move.rb'
-# This is a player class
+require_relative 'tictactoe_move.rb'
+# Description/Explanation of Player class
 class Player
   attr_accessor :identifier, :move_token
 
