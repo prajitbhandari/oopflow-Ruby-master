@@ -7,11 +7,11 @@ class Game
   def initialize
     @p1 = Player.new('Player 1', 'X')
     @p2 = Player.new('Player 2', 'O')
-    @boardSize = ask_board_size
-    @b = Board.new(@boardSize, @p1, @p2)
+    @board_size = ask_board_size
+    @b = Board.new(@board_size, @p1, @p2)
     @b.show
-    @@move_counter = 1
-    @@draw_counter = 0
+    @move_counter = 1
+    @draw_counter = 0
     proceed
   end
 
@@ -55,19 +55,18 @@ class Game
   end
 
   def game_is_draw?
-    @@draw_counter += 1
-    if @@draw_counter == (@b.board_size * @b.board_size) + 1
-      left_diagonal(@b.board, @b.board_size) == false &&
-        right_diagonal(@b.board, @b.board_size) == false &&
-        check_row(@b.board, @b.board_size) == false &&
-        check_column(@b.board, @b.board_size) == false
-    else
-      return false
-    end
+    @draw_counter += 1
+    return false unless @draw_counter == (@b.board_size * @b.board_size) + 1
+
+    left_diagonal(@b.board, @b.board_size) == false &&
+      right_diagonal(@b.board, @b.board_size) == false &&
+      check_row(@b.board, @b.board_size) == false &&
+      check_column(@b.board, @b.board_size) == false
+    # end
   end
 
   def handle_next_move
-    if @@move_counter.odd?
+    if @move_counter.odd?
       puts
       puts "Now #{@p1.identifier} turn"
       puts "Place #{@p1.move_token} in board"
@@ -78,19 +77,16 @@ class Game
         puts '==================================================='
         puts "#{@p1.identifier} choose valid row and column"
         handle_next_move
-      else
-        if @b.board[@objx.row][@objx.col] == 'X' || @b.board[@objx.row][@objx.col] == 'O'
-          puts '==================================================='
-          puts "#{@p1.identifier} select another cell"
-          handle_next_move
-        elsif @b.board[@objx.row][@objx.col] != 'X' || @b.board[@objx.row][@objx.col] != 'O'
-          @b.board[@objx.row][@objx.col] = @p1.move_token
-          @b.print_board
-          @@move_counter += 1
-        end
+      elsif @b.board[@objx.row][@objx.col] == 'X' || @b.board[@objx.row][@objx.col] == 'O'
+        puts '==================================================='
+        puts "#{@p1.identifier} select another cell"
+        handle_next_move
+      elsif @b.board[@objx.row][@objx.col] != 'X' || @b.board[@objx.row][@objx.col] != 'O'
+        @b.board[@objx.row][@objx.col] = @p1.move_token
+        @b.print_board
+        @move_counter += 1
       end
     else
-      puts
       puts "Now #{@p2.identifier} turn"
       puts "Place #{@p2.move_token} in board"
       puts
@@ -100,16 +96,14 @@ class Game
         puts '==================================================='
         puts "#{@p2.identifier} choose valid row and column"
         handle_next_move
-      else
-        if @b.board[@objx.row][@objx.col] == 'X' || @b.board[@objx.row][@objx.col] == 'O'
-          puts '==================================================='
-          puts "#{@p2.identifier} select another cell"
-          handle_next_move
-        elsif @b.board[@objx.row][@objx.col] != 'X' || @b.board[@objx.row][@objx.col] != 'O'
-          @b.board[@objx.row][@objx.col] = @p2.move_token
-          @b.print_board
-          @@move_counter += 1
-        end
+      elsif @b.board[@objx.row][@objx.col] == 'X' || @b.board[@objx.row][@objx.col] == 'O'
+        puts '==================================================='
+        puts "#{@p2.identifier} select another cell"
+        handle_next_move
+      elsif @b.board[@objx.row][@objx.col] != 'X' || @b.board[@objx.row][@objx.col] != 'O'
+        @b.board[@objx.row][@objx.col] = @p2.move_token
+        @b.print_board
+        @move_counter += 1
       end
     end
   end
@@ -122,18 +116,15 @@ class Game
         if i == j
           if board[i][j] == 'X' && board[i + 1][j + 1] == 'X'
             xlcount += 1
-            if xlcount == board_size
-              return @result = @p1.identifier
-              # break
-            end
+            return @result = @p1.identifier if xlcount == board_size
+
           elsif board[i][j] == 'O' && board[i + 1][j + 1] == 'O'
             olcount += 1
-            if olcount == board_size
-              return @result = @p2.identifier
-              # break
-            end
+            return @result = @p2.identifier if olcount == board_size
+
           else
             return false
+
           end
         end
       end
@@ -148,16 +139,12 @@ class Game
         if i + j == board_size - 1
           if board[i][j] == 'X' && board[i + 1][j - 1] == 'X'
             xrcount += 1
-            if xrcount == board_size
-              return @result = @p1.identifier
-              # break
-            end
+            return @result = @p1.identifier if xrcount == board_size
+
           elsif board[i][j] == 'O' && board[i + 1][j - 1] == 'O'
             orcount += 1
-            if orcount == board_size
-              return @result = @p2.identifier
-              # break
-            end
+            return @result = @p2.identifier if orcount == board_size
+
           else
             return false
           end
@@ -185,7 +172,7 @@ class Game
       ycount = 1
     end
     false
-end
+  end
 
   def check_column(board, board_size)
     xcount = 1
