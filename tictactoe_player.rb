@@ -15,6 +15,10 @@ class Player
     puts
     @row = gets.chomp.to_i
     @col = gets.chomp.to_i
-    @obj = Move.new(@row, @col)
+    @move_obj = Move.new(@row, @col)
+  end
+
+  def get_next_move
+    @move_obj
   end
 end
